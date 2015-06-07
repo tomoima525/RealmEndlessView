@@ -38,7 +38,7 @@ public class SimpleArrayAdapter extends ArrayAdapter<SimpleData> {
 
     public void bindView(View view, int position, SimpleData data){
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.idTv.setText(data.getId());
+        viewHolder.idTv.setText(String.valueOf(data.getId()));
         viewHolder.nameTv.setText(data.getName());
     }
 

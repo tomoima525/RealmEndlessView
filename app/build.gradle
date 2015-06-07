@@ -11,6 +11,12 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
+
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -24,4 +30,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'io.realm:realm-android:0.80.0'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

@@ -6,8 +6,8 @@ import io.realm.RealmObject;
  * Created by tomoaki on 2015/06/01.
  */
 public class SimpleData extends RealmObject {
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public int getId() {
         return id;

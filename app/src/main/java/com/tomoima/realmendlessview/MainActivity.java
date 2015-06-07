@@ -6,6 +6,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tomoima.realmendlessview.adapters.SimpleArrayAdapter;
+import com.tomoima.realmendlessview.manager.DataHandleManager;
 import com.tomoima.realmendlessview.manager.JsonDataLoader;
 import com.tomoima.realmendlessview.models.SimpleData;
 
@@ -13,18 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Void>,EndlessListView.EndlessListener {
-    private List<SimpleData> mDataList;
+    private DataHandleManager mDataHandleManager;
+    private EndlessListView mListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EndlessListView listView = (EndlessListView) findViewById(R.id.endless);
-        mDataList = new ArrayList<SimpleData>();
-        SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(getApplicationContext(), mDataList);
-        listView.setAdapter(arrayAdapter);
-        listView.setLoadingView(R.layout.layout_loading);
+        mListView = (EndlessListView) findViewById(R.id.endless);
+        List<SimpleData> dataList = new ArrayList<SimpleData>();
+        SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(getApplicationContext(), dataList);
+        mListView.setAdapter(arrayAdapter);
+        mListView.setLoadingView(R.layout.layout_loading);
+        mListView.setEndlessListener(this);
         //Set listview, datalist to Manager
-
+        mDataHandleManager = new DataHandleManager(getApplicationContext(),mListView);
         //LoadData from json to Realm
         getSupportLoaderManager().initLoader(0, null,this);
     }
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Void> loader, Void data) {
         //set data to adapter
+        mDataHandleManager.setInitData();
 
     }
 
@@ -49,6 +53,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void loadData() {
+        if(!mDataHandleManager.addNewData()){
+            mListView.setIsBottom(true);
+        }
+    }
 
+    @Override
+    public void onDestroy(){
+        mDataHandleManager.destroyRealm();
+        super.onDestroy();
     }
 }

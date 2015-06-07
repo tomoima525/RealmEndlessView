@@ -16,9 +16,10 @@ import java.util.List;
  * Created by tomoaki on 2015/05/31.
  */
 public class EndlessListView extends ListView implements AbsListView.OnScrollListener{
-
+    final private String TAG = getClass().getSimpleName();
     EndlessListener mListener;
     View mFooterView;
+    int mVisibleItemCount;
     SimpleArrayAdapter mAdapter;
     boolean mIsLoading = false;
     boolean mIsBottom = false;
@@ -51,12 +52,12 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
         if (mIsBottom) return;
         if (getAdapter() == null) return;
         if ( getAdapter().getCount() == 0) return;
-
         int count = visibleItemCount + firstVisibleItem;
         if (count >= totalItemCount && !mIsLoading){
-
+            mVisibleItemCount = visibleItemCount;
             mIsLoading = true;
             this.addFooterView(mFooterView);
+
             mListener.loadData();
         }
 
@@ -80,11 +81,12 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
         setAdapter(null);
         this.removeFooterView(mFooterView);
         setAdapter(adapter);
+        setSelection(getAdapter().getCount()-mVisibleItemCount);
         if(data != null) {
             mAdapter.addAll(data);
             mAdapter.notifyDataSetChanged();
         }
-        setSelection(getAdapter().getCount()-1);
+
     }
 
     public void setIsBottom(Boolean isBottom){
