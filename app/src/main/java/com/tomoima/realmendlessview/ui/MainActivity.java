@@ -1,36 +1,51 @@
-package com.tomoima.realmendlessview;
+package com.tomoima.realmendlessview.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 
+import com.tomoima.realmendlessview.R;
 import com.tomoima.realmendlessview.adapters.SimpleArrayAdapter;
-import com.tomoima.realmendlessview.manager.DataHandleManager;
-import com.tomoima.realmendlessview.manager.JsonDataLoader;
+import com.tomoima.realmendlessview.loader.JsonDataLoader;
 import com.tomoima.realmendlessview.models.SimpleData;
+import com.tomoima.realmendlessview.ui.presenter.ShowNamePresenter;
+import com.tomoima.realmendlessview.ui.presenter.ShowNameUIModule;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Void>,EndlessListView.EndlessListener {
-    private DataHandleManager mDataHandleManager;
-    private EndlessListView mListView;
+import javax.inject.Inject;
+
+public class MainActivity extends BaseActivity implements
+        LoaderManager.LoaderCallbacks<Void>,EndlessListView.EndlessListener, ShowNamePresenter.View {
+    @Inject ShowNamePresenter mShowNamePresenter;
+    //@InjectView(R.id.endless) EndlessListView mListView;
+    EndlessListView mListView;
+
+    @Override
+    protected List<Object> getModules() {
+        List<Object> modules = new LinkedList<Object>();
+        modules.add(new ShowNameUIModule());
+        return modules;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListView = (EndlessListView) findViewById(R.id.endless);
         List<SimpleData> dataList = new ArrayList<SimpleData>();
         SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(getApplicationContext(), dataList);
+        mListView = (EndlessListView) findViewById(R.id.endless);
         mListView.setAdapter(arrayAdapter);
         mListView.setLoadingView(R.layout.layout_loading);
         mListView.setEndlessListener(this);
-        //Set listview, datalist to Manager
-        mDataHandleManager = new DataHandleManager(getApplicationContext(),mListView);
+        mShowNamePresenter.setView(this);
+
         //LoadData from json to Realm
         getSupportLoaderManager().initLoader(0, null,this);
     }
+
 
     @Override
     public Loader<Void> onCreateLoader(int id, Bundle args) {
@@ -42,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Void> loader, Void data) {
         //set data to adapter
-        mDataHandleManager.setInitData();
+        mShowNamePresenter.initialize();
 
     }
 
@@ -53,14 +68,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void loadData() {
-        if(!mDataHandleManager.addNewData()){
+        if(!mShowNamePresenter.addNewData()){
             mListView.setIsBottom(true);
         }
     }
 
     @Override
     public void onDestroy(){
-        mDataHandleManager.destroyRealm();
+        mShowNamePresenter.destroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void addNewData(List<SimpleData> data) {
+        mListView.addNewData(data);
     }
 }

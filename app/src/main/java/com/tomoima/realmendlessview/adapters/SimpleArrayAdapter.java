@@ -17,7 +17,7 @@ import java.util.List;
  * Created by tomoaki on 2015/06/01.
  */
 public class SimpleArrayAdapter extends ArrayAdapter<SimpleData> {
-    private LayoutInflater mInflater;
+    LayoutInflater mInflater;
     public SimpleArrayAdapter(Context context, List<SimpleData> dataList) {
         super(context, -1, dataList);
         mInflater = LayoutInflater.from(context);

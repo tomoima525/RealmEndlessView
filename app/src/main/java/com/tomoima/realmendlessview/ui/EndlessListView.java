@@ -1,4 +1,4 @@
-package com.tomoima.realmendlessview;
+package com.tomoima.realmendlessview.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

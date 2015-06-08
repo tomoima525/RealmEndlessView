@@ -1,4 +1,4 @@
-package com.tomoima.realmendlessview.manager;
+package com.tomoima.realmendlessview.loader;
 
 import android.content.Context;
 import android.content.res.AssetManager;

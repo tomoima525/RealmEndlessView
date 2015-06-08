@@ -1,10 +1,13 @@
-package com.tomoima.realmendlessview.manager;
+package com.tomoima.realmendlessview.ui.presenter;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.tomoima.realmendlessview.EndlessListView;
 import com.tomoima.realmendlessview.models.SimpleData;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -13,22 +16,25 @@ import io.realm.RealmResults;
 /**
  * Created by tomoaki on 2015/06/01.
  */
-public class DataHandleManager {
+public class ShowNamePresenter extends Presenter {
     final private String TAG = getClass().getSimpleName();
-    private Context mContext;
-    private EndlessListView mListView;
     private int mLastId;
     private Realm mRealm;
-
     private final static int RESULT_NUM = 20;
-    public DataHandleManager(Context context, EndlessListView listView){
-        mListView = listView;
-        mContext = context;
-        Realm.deleteRealmFile(mContext);
-        mRealm = Realm.getInstance(mContext);
+    private View mView;
+
+    @Inject
+    public ShowNamePresenter(Context context){
+        Realm.deleteRealmFile(context);
+        mRealm = Realm.getInstance(context);
     }
 
-    public void setInitData(){
+    public void setView(View view){
+        mView = view;
+    }
+
+    @Override
+    public void initialize() {
         RealmQuery<SimpleData> realmQuery = mRealm.where(SimpleData.class);
         RealmResults<SimpleData> realmResults = realmQuery.findAll();
         realmResults.sort("id");
@@ -36,9 +42,7 @@ public class DataHandleManager {
         mLastId = realmResults.get(realmResults.size() > RESULT_NUM ? RESULT_NUM : realmResults.size() - 1).getId();
         RealmResults<SimpleData> partialResults = realmResults.where().between("id", firstId, mLastId).findAll();
         partialResults.sort("id");
-
-        mListView.addNewData(partialResults);
-
+        mView.addNewData(partialResults);
     }
 
     public boolean addNewData(){
@@ -52,14 +56,28 @@ public class DataHandleManager {
         int nextLastId = realmResults.get(realmResults.size() > RESULT_NUM ? RESULT_NUM : realmResults.size() - 1).getId();
         RealmResults<SimpleData> partialResults = realmResults.where().between("id", mLastId, nextLastId).findAll();
         partialResults.sort("id");
-        mListView.addNewData(partialResults);
+        mView.addNewData(partialResults);
         mLastId = nextLastId;
         return true;
     }
 
-    public void destroyRealm(){
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void destroy() {
         Log.d(TAG, "¥¥realm instance closed");
         mRealm.close();
     }
 
+    public interface View {
+        void addNewData(List<SimpleData> data);
+    }
 }
