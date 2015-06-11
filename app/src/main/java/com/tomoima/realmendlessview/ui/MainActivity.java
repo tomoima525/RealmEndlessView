@@ -7,7 +7,7 @@ import android.support.v4.content.Loader;
 import com.tomoima.realmendlessview.R;
 import com.tomoima.realmendlessview.adapters.SimpleArrayAdapter;
 import com.tomoima.realmendlessview.loader.JsonDataLoader;
-import com.tomoima.realmendlessview.models.SimpleData;
+import com.tomoima.realmendlessview.domain.models.SimpleData;
 import com.tomoima.realmendlessview.ui.presenter.ShowNamePresenter;
 import com.tomoima.realmendlessview.ui.presenter.ShowNameUIModule;
 

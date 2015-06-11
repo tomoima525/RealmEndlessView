@@ -1,4 +1,4 @@
-package com.tomoima.realmendlessview.models;
+package com.tomoima.realmendlessview.domain.models;
 
 import io.realm.RealmObject;
 

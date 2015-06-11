@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.tomoima.realmendlessview.R;
-import com.tomoima.realmendlessview.models.SimpleData;
+import com.tomoima.realmendlessview.domain.models.SimpleData;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.tomoima.realmendlessview.models.SimpleData;
+import com.tomoima.realmendlessview.domain.models.SimpleData;
 
 import java.io.IOException;
 import java.io.InputStream;
