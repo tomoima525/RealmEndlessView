@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.tomoima.realmendlessview.R;
-import com.tomoima.realmendlessview.domain.models.SimpleData;
+import com.tomoima.realmendlessview.models.SimpleData;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by tomoaki on 2015/06/01.
  */
 public class SimpleArrayAdapter extends ArrayAdapter<SimpleData> {
-    LayoutInflater mInflater;
+    private LayoutInflater mInflater;
     public SimpleArrayAdapter(Context context, List<SimpleData> dataList) {
         super(context, -1, dataList);
         mInflater = LayoutInflater.from(context);
