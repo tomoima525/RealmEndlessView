@@ -16,7 +16,7 @@ import java.util.List;
  * Created by tomoaki on 2015/05/31.
  */
 public class EndlessListView extends ListView implements AbsListView.OnScrollListener{
-    final private String TAG = getClass().getSimpleName();
+
     EndlessListener mListener;
     View mFooterView;
     int mVisibleItemCount;

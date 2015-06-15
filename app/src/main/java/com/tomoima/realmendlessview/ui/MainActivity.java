@@ -17,10 +17,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class MainActivity extends BaseActivity implements
         LoaderManager.LoaderCallbacks<Void>,EndlessListView.EndlessListener, ShowNamePresenter.View {
     @Inject ShowNamePresenter mShowNamePresenter;
-    //@InjectView(R.id.endless) EndlessListView mListView;
+    @InjectView(R.id.endless)
     EndlessListView mListView;
 
     @Override
@@ -34,9 +37,10 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
         List<SimpleData> dataList = new ArrayList<SimpleData>();
         SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(getApplicationContext(), dataList);
-        mListView = (EndlessListView) findViewById(R.id.endless);
+
         mListView.setAdapter(arrayAdapter);
         mListView.setLoadingView(R.layout.layout_loading);
         mListView.setEndlessListener(this);

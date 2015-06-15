@@ -8,7 +8,6 @@ import com.tomoima.realmendlessview.di.ActivityModule;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import dagger.ObjectGraph;
 
 /**
@@ -21,7 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         injectDependencies();
-        injectViews();
     }
 
     /**
@@ -54,14 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityScopeModules.add(new ActivityModule(this));
         activityScopeGraph = thisApplication.plus(activityScopeModules);
         inject(this);
-    }
-
-    /**
-     * Replace every field annotated with ButterKnife annotations like @InjectView with the proper
-     * value.
-     */
-    private void injectViews() {
-        ButterKnife.inject(this);
     }
 
     @Override
