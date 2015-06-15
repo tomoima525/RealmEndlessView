@@ -5,4 +5,7 @@ package com.tomoima.realmendlessview;
  */
 public class Const {
     public static String LAST_ID = "last_id";
+    public static final int RESPONSE_OK = 0;
+    public static final int RESPONSE_FALSE = 1;
+
 }

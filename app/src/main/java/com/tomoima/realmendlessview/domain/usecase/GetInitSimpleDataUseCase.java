@@ -1,7 +1,11 @@
 package com.tomoima.realmendlessview.domain.usecase;
 
+import com.tomoima.realmendlessview.Const;
+import com.tomoima.realmendlessview.domain.models.SimpleData;
 import com.tomoima.realmendlessview.domain.repository.SimpleDataRepository;
 import com.tomoima.realmendlessview.event.OnSimpleDataLoadedEvent;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,9 +24,16 @@ public class GetInitSimpleDataUseCase extends UseCase {
 
     @Override
     public void run() {
-        //mSimpleDataRepository.getInitSimpleData();
+        List<SimpleData> data = mSimpleDataRepository.getInitSimpleData();
+        int response = Const.RESPONSE_OK;
+        if(data == null){
+            response = Const.RESPONSE_FALSE;
+        }
+        EventBus.getDefault().post(new OnSimpleDataLoadedEvent(data,response));
+    }
 
-        EventBus.getDefault().post(new OnSimpleDataLoadedEvent(mSimpleDataRepository.getInitSimpleData()));
+    public void close(){
+        mSimpleDataRepository.close();
     }
 
 }

@@ -13,4 +13,6 @@ public interface SimpleDataRepository {
 
     List<SimpleData> getNextData();
 
+    void close();
+
 }

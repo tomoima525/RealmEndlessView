@@ -1,18 +1,17 @@
 package com.tomoima.realmendlessview.data.cache;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import javax.inject.Inject;
+import com.tomoima.realmendlessview.ThisApplication;
 
 /**
  * Created by tomoaki on 2015/06/12.
  */
 public class LocalStorage {
-    @Inject static Application app;
+
     public static SharedPreferences getLocalStorage(){
-        return app.getSharedPreferences("common", Context.MODE_PRIVATE);
+        return ThisApplication.getThisApplication().getSharedPreferences("common", Context.MODE_PRIVATE);
     }
 
     public static int getInt(String key){

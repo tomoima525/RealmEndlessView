@@ -6,8 +6,8 @@ import android.support.v4.content.Loader;
 
 import com.tomoima.realmendlessview.R;
 import com.tomoima.realmendlessview.adapters.SimpleArrayAdapter;
-import com.tomoima.realmendlessview.loader.JsonDataLoader;
 import com.tomoima.realmendlessview.domain.models.SimpleData;
+import com.tomoima.realmendlessview.loader.JsonDataLoader;
 import com.tomoima.realmendlessview.ui.presenter.ShowNamePresenter;
 import com.tomoima.realmendlessview.ui.presenter.ShowNameUIModule;
 
@@ -74,6 +74,18 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        mShowNamePresenter.resume();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mShowNamePresenter.pause();
+    }
+
+    @Override
     public void onDestroy(){
         mShowNamePresenter.destroy();
         super.onDestroy();
@@ -82,5 +94,10 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void addNewData(List<SimpleData> data) {
         mListView.addNewData(data);
+    }
+
+    @Override
+    public void noMoreData() {
+        mListView.setIsBottom(true);
     }
 }

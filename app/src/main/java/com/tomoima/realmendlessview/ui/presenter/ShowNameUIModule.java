@@ -1,8 +1,8 @@
 package com.tomoima.realmendlessview.ui.presenter;
 
-import android.content.Context;
-
 import com.tomoima.realmendlessview.di.RootModule;
+import com.tomoima.realmendlessview.domain.usecase.GetInitSimpleDataUseCase;
+import com.tomoima.realmendlessview.domain.usecase.GetSimpleDataUseCase;
 import com.tomoima.realmendlessview.ui.MainActivity;
 
 import dagger.Module;
@@ -15,10 +15,11 @@ import dagger.Provides;
         injects = {
                 MainActivity.class
         },
-        addsTo = RootModule.class
+        addsTo = RootModule.class,
+        complete = false
 )
 public final class ShowNameUIModule {
-    @Provides ShowNamePresenter provideShowNamePresenter(Context context) {
-        return new ShowNamePresenter(context);
+    @Provides ShowNamePresenter provideShowNamePresenter(GetInitSimpleDataUseCase getInitSimpleDataUseCase, GetSimpleDataUseCase getSimpleDataUseCase) {
+        return new ShowNamePresenter(getInitSimpleDataUseCase, getSimpleDataUseCase);
     }
 }

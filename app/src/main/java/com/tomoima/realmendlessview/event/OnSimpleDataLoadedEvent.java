@@ -9,7 +9,9 @@ import java.util.List;
  */
 public class OnSimpleDataLoadedEvent {
     public List<SimpleData> simpleDataList;
-    public OnSimpleDataLoadedEvent(List<SimpleData> simpleDataList){
+    public int response;
+    public OnSimpleDataLoadedEvent(List<SimpleData> simpleDataList, int response){
         this.simpleDataList = simpleDataList;
+        this.response = response;
     }
 }

@@ -21,11 +21,12 @@ import dagger.ObjectGraph;
 public class ThisApplication extends Application {
 
     private ObjectGraph objectGraph;
-
+    private static ThisApplication sApp;
     @Override
     public void onCreate() {
         super.onCreate();
         initializeDependencyInjector();
+        sApp = this;
     }
 
     /**
@@ -56,5 +57,9 @@ public class ThisApplication extends Application {
         objectGraph = ObjectGraph.create(new RootModule(this));
         objectGraph.inject(this);
         objectGraph.injectStatics();
+    }
+
+    public static ThisApplication getThisApplication(){
+        return sApp;
     }
 }
