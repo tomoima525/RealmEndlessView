@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import com.tomoima.realmendlessview.adapters.SimpleArrayAdapter;
@@ -66,6 +67,8 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
     public void setLoadingView(int resId){
         LayoutInflater layoutInflater = (LayoutInflater) super.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFooterView = layoutInflater.inflate(resId,null);
+        // You should call this when the initial data takes time to call
+        // this.addFooterView(mFooterView);
     }
 
     public void setAdapter(SimpleArrayAdapter adapter){
@@ -77,11 +80,13 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
 
     public void addNewData(List<SimpleData> data){
         mIsLoading = false;
-        SimpleArrayAdapter adapter = (SimpleArrayAdapter)this.getAdapter();
-        setAdapter(null);
-        this.removeFooterView(mFooterView);
-        setAdapter(adapter);
-        setSelection(getAdapter().getCount()-mVisibleItemCount);
+        if(getFooterViewsCount() > 0) {
+            SimpleArrayAdapter adapter = (SimpleArrayAdapter) ((HeaderViewListAdapter) this.getAdapter()).getWrappedAdapter();
+            setAdapter(null);
+            this.removeFooterView(mFooterView);
+            setAdapter(adapter);
+            setSelection(getAdapter().getCount() - mVisibleItemCount);
+        }
         if(data != null) {
             mAdapter.addAll(data);
             mAdapter.notifyDataSetChanged();

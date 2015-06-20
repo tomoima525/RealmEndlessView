@@ -31,6 +31,7 @@ public class JsonDataLoader extends AsyncTaskLoader<Void> {
 
     @Override
     public Void loadInBackground() {
+        Realm.deleteRealmFile(getContext());
         AssetManager assetManager = getContext().getAssets();
         InputStream file = null;
         String jsonArrayStr = null;
