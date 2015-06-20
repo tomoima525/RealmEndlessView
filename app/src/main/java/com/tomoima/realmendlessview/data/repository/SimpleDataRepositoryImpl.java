@@ -47,7 +47,6 @@ public class SimpleDataRepositoryImpl implements SimpleDataRepository {
         partialResults = realmResults.where().between("id", firstId, lastId).findAll();
         partialResults.sort("id");
         LocalStorage.putInt(Const.LAST_ID, lastId);
-
         return partialResults;
     }
 
